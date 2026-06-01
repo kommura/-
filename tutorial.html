@@ -1,136 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link type="text/css" rel="stylesheet" href="style.css">
-    <title>チュートリアル</title>
-    <style>
-        #drawingCanvas {
-            border: 1px solid black;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>チュートリアル</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <div class="btn">
-        <a href="index.php">タイトルへ戻る</a>
-    </div>
-    <div class="message" style="margin:10px;">
-        <p>オンラインで絵しりとり！何を描いたのか、<span style="font-weight: bold;">ひらがなで</span>入力してね！</p>
-    </div>
-    <canvas id="drawingCanvas" width="800" height="600"></canvas>
-    <div id="controls">
-        <button onclick="clearCanvas()">クリア</button>
-        <button onclick="setWhite()">消しゴム</button>
-        <button onclick="setPenColor()">ペン</button>
-        <label for="colorPicker">色選択:</label>
-        <input type="color" id="colorPicker" value="#000000">
-        <label for="brushSize">ブラシサイズ:</label>
-        <input type="range" id="brushSize" min="1" max="50" value="5">
-        <label for="drawingTitle">描いた絵:</label>
-        <input type="text" id="drawingTitle" autocomplete="off">
-        <h3 id="validationResult"></h3>
-    </div>
-    <script>
-        const canvas = document.getElementById('drawingCanvas');
-        const ctx = canvas.getContext('2d');
-        const colorPicker = document.getElementById('colorPicker');
-        const brushSize = document.getElementById('brushSize');
-        let drawing = false;
-
-        function preventScroll(event) {
-            event.preventDefault();
-        }
-
-        canvas.addEventListener('mousedown', (e) => {
-            drawing = true;
-            ctx.beginPath();
-            ctx.moveTo(e.offsetX, e.offsetY);
-        });
-        canvas.addEventListener('touchstart', (e) => {
-            drawing = true;
-            ctx.beginPath();
-            touchX = event.changedTouches[0].pageX;
-            touchY = event.changedTouches[0].pageY;
-            preventScroll(e);
-            ctx.moveTo(touchX, touchY - 90);
-        });
-
-
-        canvas.addEventListener('mousemove', (e) => {
-            if (drawing) {
-                ctx.lineTo(e.offsetX, e.offsetY);
-                ctx.stroke();
-            }
-        });
-        canvas.addEventListener('touchmove', (e) => {
-            if (drawing) {
-                touchX = event.changedTouches[0].pageX;
-                touchY = event.changedTouches[0].pageY;
-                preventScroll(e);
-                ctx.lineTo(touchX, touchY - 90);
-                ctx.stroke();
-
-            }
-        });
-
-        canvas.addEventListener('mouseup', () => {
-            drawing = false;
-            ctx.closePath();
-        });
-        canvas.addEventListener('mouseout', () => {
-            drawing = false;
-            ctx.closePath();
-        });
-        canvas.addEventListener('touchend', () => {
-            drawing = false;
-            ctx.closePath();
-        });
-
-        function clearCanvas() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "#fff";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-        }
-
-        function setWhite() {
-            ctx.strokeStyle = "#fff";
-        }
-
-        function setPenColor() {
-            color = colorPicker.value
-            console.log(color);
-            ctx.strokeStyle = color;
-
-        }
-
-        colorPicker.addEventListener('change', (e) => {
-            ctx.strokeStyle = e.target.value;
-        });
-
-        brushSize.addEventListener('input', (e) => {
-            ctx.lineWidth = e.target.value;
-        });
-
-        ctx.strokeStyle = colorPicker.value;
-        ctx.lineWidth = brushSize.value;
-
-        clearCanvas();
-
-        const drawingTitle = document.getElementById('drawingTitle').value;
-        document.getElementById('drawingTitle').addEventListener('input', () => {
-            const drawingTitle = document.getElementById('drawingTitle').value;
-            const validationResult = document.getElementById('validationResult');
-            if (!/^[\u3040-\u3090ー]+$/.test(drawingTitle)) {
-                validationResult.innerText = 'ひらがなで入力してね';
-            }else{
-                validationResult.innerText = 'あなたは「'+drawingTitle+'」を描きました！';
-            }
-        });
-    </script>
-    <div style="height: 100px;"></div>
+<div id="gameContainer">
+<h1>チュートリアル</h1>
+<p>1. 「部屋を作成する」から部屋名とホスト名を入力します。</p>
+<p>2. 別のプレイヤーは「部屋に参加する」から同じ部屋名を入力します。</p>
+<p>3. ホストが書く回数・制限時間・最初の1文字を決めてゲーム開始します。</p>
+<p>4. 順番に絵を描き、描いたものをひらがなで入力して次の人へ進めます。</p>
+<p><a href="index.php">トップへ戻る</a></p>
+</div>
 </body>
-
 </html>

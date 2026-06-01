@@ -1,48 +1,33 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $room_name = $_POST['room_name'];
-    $player_name = $_POST['player_name'];
+    $room_name = trim($_POST['room_name'] ?? '');
+    $player_name = trim($_POST['player_name'] ?? '');
+    $room_name = preg_replace('/[^a-zA-Z0-9ぁ-んァ-ヶ一-龠_-]/u', '_', $room_name);
+    $player_name = preg_replace('/[\r\n]/', '', $player_name);
 
     $room_info_file = "rooms/$room_name-info.json";
-
-    // 部屋が存在するか確認
     if (!file_exists($room_info_file)) {
-        echo '部屋がありません';
+        echo '<p class="error">部屋がありません。</p><p><a href="join_room.php">戻る</a></p>';
         exit();
     }
 
-    // 部屋情報の読み込み
-    $room_info = json_decode(file_get_contents($room_info_file), true);
     $players_file = "rooms/$room_name.json";
-
-    // プレイヤーリストの読み込み
     $players = [];
     if (file_exists($players_file)) {
         $players = json_decode(file_get_contents($players_file), true);
+        if (!is_array($players)) $players = [];
     }
-
-    // プレイヤーを追加
-    if (!in_array($player_name, $players)) {
+    if (!in_array($player_name, $players, true)) {
         $players[] = $player_name;
-        file_put_contents($players_file, json_encode($players));
+        file_put_contents($players_file, json_encode($players, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
     }
 
-    // 部屋へリダイレクト
-    header("Location: match.php?room=$room_name&player=$player_name");
+    header('Location: match.php?room=' . rawurlencode($room_name) . '&player=' . rawurlencode($player_name));
     exit();
 }
+include 'includes/header.php';
 ?>
-
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<title>部屋に参加する</title>
-<link type="text/css" rel="stylesheet" href="style.css">
-</head>
-<body>
-<div class="title"><img src="paint_title2.png"></div>
-<br><br><br><br><br>
+<div class="title"><img src="paint_title2.png" alt="絵しりとり"></div>
 <h1>部屋に参加する</h1>
 <form action="join_room.php" method="POST">
     <label for="room_name">部屋名:</label>
@@ -54,5 +39,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <button type="submit" class="btn2">参加する</button>
     </div>
 </form>
-</body>
-</html>
+<p><a href="index.php">トップへ戻る</a></p>
+<?php include 'includes/footer.php'; ?>

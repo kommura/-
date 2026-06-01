@@ -1,54 +1,100 @@
 @charset "UTF-8";
-body{
-    text-align:center;
+
+body {
+    text-align: center;
     margin: 0;
-    width: 100vw;
-    height: 100vh;
-    background-image:url('background.png');
+    min-height: 100vh;
+    font-family: "Yu Gothic", "Meiryo", sans-serif;
+    background-image: url('background.png');
     background-size: cover;
     background-repeat: no-repeat;
+    background-position: top center;
 }
 
-.title{
-    position:relative;
-    top:90px;
+.title {
+    margin-top: 28px;
 }
 
-a {
-  text-decoration: none;
+.title img {
+    width: min(520px, 90vw);
+    height: auto;
 }
 
-.btn{
-    display:flex;
-    justify-content: center;
-}
-
-.btn a {
-    border: 6px solid #ff3366;
-    border-radius: 100px;
-    display: block;
-    width: 200px;
-    padding: 15px;
-    box-sizing: border-box;
-    background: #ff6666;
-    color: #fff;
-    margin: 10px 0;
-}
-
+.btn,
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    margin: 20px auto;
 }
 
-.btn2{
-    border: 6px solid #ff3366;
-    border-radius: 100px;
-    display: block;
-    width: 200px;
-    padding: 15px;
-    box-sizing: border-box;
-    background: #ff6666;
+a,
+.btn2,
+input[type="submit"],
+input[type="button"],
+button {
+    display: inline-block;
+    min-width: 130px;
+    border: 5px solid #ff6699;
+    border-radius: 999px;
+    padding: 12px 18px;
+    background: #ff99bb;
     color: #fff;
-    margin: 10px 0;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    margin: 6px;
+}
+
+a:hover,
+.btn2:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+button:hover {
+    opacity: 0.85;
+}
+
+input,
+select {
+    padding: 8px;
+    margin: 6px;
+    border-radius: 8px;
+    border: 1px solid #aaa;
+}
+
+ul {
+    display: inline-block;
+    text-align: left;
+}
+
+#gameContainer {
+    max-width: 980px;
+    margin: 20px auto;
+    padding: 20px;
+    background: rgba(255,255,255,0.75);
+    border-radius: 20px;
+}
+
+#drawingCanvas {
+    border: 2px solid #333;
+    background-color: #fff;
+    touch-action: none;
+    max-width: 95vw;
+}
+
+.gallery {
+    display: inline-block;
+    background: rgba(255,255,255,0.9);
+    border: 1px solid #888;
+    border-radius: 12px;
+    margin: 8px;
+    padding: 10px;
+    vertical-align: top;
+}
+
+#timer {
+    font-size: 24px;
+    color: red;
+}
+
+.error {
+    color: red;
+    font-weight: bold;
 }
